@@ -3,8 +3,8 @@ const fs = require("fs");
 
 require('dotenv').config();
 
-const publicKey = fs.readFileSync("./keys/sugarmamejkey.pub");
-const privateKey = fs.readFileSync("./keys/sugarmamejkey.pem");
+const publicKey = fs.readFileSync("./keys/public.pub");
+const privateKey = fs.readFileSync("./keys/private.pem");
 
 const authentication = {
     sign: (req, res) => {

@@ -3,8 +3,11 @@ const app = express();
 // import 
 const auth = require("./middleware/auth");
 
+const dbconnect = require("./middleware/dbconnect");
 
 app.use(express.json());
+
+dbconnect.connect();
 
 app.get("/", (req, res) => {
     res.send({ message: 'Welcome' });
