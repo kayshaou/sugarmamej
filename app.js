@@ -31,7 +31,7 @@ app.post("/sign", (req, res) => {
 let port = process.env.PORT || 5000
 
 app.listen(port, () => {
-    console.log(" listening at port 5000");
+    console.log(" listening at port " + port);
 })
 
 module.exports = app;
