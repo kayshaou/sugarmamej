@@ -4,15 +4,88 @@ const Product = require("../model/product");
 const ProductTransaction = require("../model/productTransaction")
 const helper = require("../helper/utils");
 const moment = require("moment");
+const escapeStringRegexp = require('escape-string-regexp');
+
 const handleError = (err, res) => {
-    console.error(err);
-    res.send({ message: 'Product not created ' + err })
+    res.status(500).send({ error: 'Error occurred ' + err })
 }
-// cart related
+
+// list product based on category; category can be emptied
+router.get("/list/:category", async (req, res) => {
+    try {
+        const { category: productCategory } = req.params;
+        const _regexproductCategory = escapeStringRegexp(productCategory);
+
+        const query = Product.find(
+            {
+                productCategory:
+                {
+                    $regex: _regexproductCategory,
+                    $options: "i" //ignore case
+                }
+            });
+
+        const productList = await query.exec();
+
+        res.status(200).send({
+            productList
+        });
+
+    } catch (error) {
+        handleError(error, res);
+    }
+
+});
+
+// getProductDetail 24/12/2020 1:08pm
+router.get("/detail/:prodobjid", async (req, res) => {
+    try {
+        const { prodobjid: prodObjId } = req.params;
+        //Adventure.findById(id, function (err, adventure) {});
+
+        Product.findById(prodObjId, (err, product) => {
+            if (err) return handleError(err, res);
+
+            res.status(200).send({
+                product
+            })
+        })
+    } catch (error) {
+        handleError(error, res);
+    }
+})
+// searchProduct 1:22pm
+router.get("/search", async (req, res) => {
+    try {
+
+        const { keyword } = req.body;
+        // category, name, description
+        Product.find({ $text: { $search: keyword } })
+            //.skip(20)
+            .limit(10)
+            .exec((err, product) => {
+                if (err) return handleError(err, res)
+
+                res.status(200).send({
+                    product
+                })
+            })
+    } catch (error) {
+        handleError(error, res);
+    }
+});
+
+
+
 
 //  create product
 router.post("/create-product", (req, res) => {
-    const { name, productDescription, productRemark, productAdditionalInformation, inStock } = req.body;
+    const { name,
+        productDescription,
+        productRemark,
+        productAdditionalInformation,
+        inStock,
+        productCategory } = req.body;
 
     const product = {
         productId: helper.generateRunningNumber("PDU"),
@@ -21,7 +94,8 @@ router.post("/create-product", (req, res) => {
         productRemark,
         productAdditionalInformation,
         inStock,
-        createdDate: moment()
+        createdDate: moment(),
+        productCategory
     }
     Product.create(
         product,
@@ -68,6 +142,8 @@ router.get("/check-timer", (req, res) => {
         // time is up, the item will be released
     }
 })
+
+
 
 router.get("/start-timer", (req, res) => {
     let start = new Date();

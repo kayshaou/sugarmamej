@@ -6,8 +6,15 @@ const product = mongoose.model('Product', Schema({
     productId: {
         type: String
     },
-    productName: String,
-    productDescription: String,
+    productCategory: {
+        type: String, index: true
+    },
+    productName: {
+        type: String, index: true
+    },
+    productDescription: {
+        type: String, index: true
+    },
     productRemark: String,
     productAdditionalInformation: String,
     createdDate: { // stocked date
@@ -21,5 +28,12 @@ const product = mongoose.model('Product', Schema({
     }, // OOS - out of stock, INS - in-stock, BKO - backorder
     inStock: Number // number of available stocks.
 }, { optimisticConcurrency: true }));
+
+product.createIndexes({
+    productCategory: "text",
+    productName: "text",
+    productDescription: "text"
+})
+
 
 module.exports = product;

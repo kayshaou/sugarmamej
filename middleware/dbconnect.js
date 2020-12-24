@@ -10,7 +10,8 @@ const dbConnect = {
         mongoose.connect(connectionstring,
             {
                 useNewUrlParser: true,
-                useUnifiedTopology: true
+                useUnifiedTopology: true,
+                useCreateIndex: true
             }).then(
                 console.log("mongo DB connected")
             ).catch((err) => console.log(err.message));
