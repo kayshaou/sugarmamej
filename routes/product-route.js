@@ -55,7 +55,7 @@ router.get("/detail/:prodobjid", async (req, res) => {
     }
 })
 // searchProduct 1:22pm
-router.get("/search", async (req, res) => {
+router.post("/search", async (req, res) => {
     try {
 
         const { keyword } = req.body;
