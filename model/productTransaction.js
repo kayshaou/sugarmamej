@@ -9,13 +9,22 @@ const productTransaction = mongoose.model('ProductTransaction', Schema({
         type: Date, default: Date.Now
     },
     transactionStatus: String, // RESERVED, PLACED
-    productId: { //ref to product schema
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    },
+    productId: [{ //ref to product schema
+        productRef: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product"
+        },
+        purchasedUnit: Number
+    }],
     reservedDate: {
         type: Date, default: Date.Now
+    },
+    purchaser: { //purchaser
+
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Purchaser"
     }
+
 }, { optimisticConcurrency: true }));
 
 module.exports = productTransaction;

@@ -7,11 +7,13 @@ const app = express();
 const dbconnect = require("./middleware/dbconnect");
 
 const productRoutes = require("./routes/product-route");
+const purchaserRoutes = require("./routes/purchaser-route");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/product", productRoutes);
+app.use("/purchaser", purchaserRoutes);
 
 dbconnect.connect();
 
