@@ -1,14 +1,18 @@
 const express = require("express");
 var cookieParser = require('cookie-parser');
+const helper = require("./helper/utils");
 
 const app = express();
 
 // import 
 // const auth = require("./middleware/auth");
 const dbconnect = require("./middleware/dbconnect");
-
+// routes 
 const productRoutes = require("./routes/product-route");
 const purchaserRoutes = require("./routes/purchaser-route");
+
+
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +36,11 @@ app.get("/", (req, res) => {
 app.post("/sign", (req, res) => {
     auth.sign(req, res);
 })
+
+
+
+
+
 
 // app.post("/verify", auth.verify, (req, res) => {
 //     res.send({ message: 'Welcome' });

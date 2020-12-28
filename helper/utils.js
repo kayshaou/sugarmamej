@@ -1,5 +1,6 @@
 const uuid4 = require("uuid4");
 const moment = require("moment");
+const bcrypt = require('bcrypt');
 require("dotenv").config();
 
 const helper = {
@@ -9,7 +10,32 @@ const helper = {
         // SGM201223
         return prefix + abbrev + formattedDate + Math.round(new Date().getTime());
     }
+    ,
+    hashPassword: (rawPassword) => {
+        return new Promise((resolve, reject) => {
+            bcrypt.genSalt(parseInt(process.env.salt_round), function (err, salt) {
+                if (err) return reject(err)
+                bcrypt.hash(rawPassword, salt, function (err, hash) {
+                    // Store hash in your password DB.
+                    if (err) return reject(err)
+                    resolve(hash);
+                });
+            })
+        });
+    },
+    verifyPassword: (hash, myPlaintextPassword) => {
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(myPlaintextPassword, hash, function (err, result) {
+                // result == true
+                if (err) return reject(err)
+                resolve(result);
+            });
+        })
+    }
 }
+
+
+
 
 module.exports = helper;
 

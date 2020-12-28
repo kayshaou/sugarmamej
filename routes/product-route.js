@@ -285,7 +285,7 @@ router.post("/add-cart", (req, res) => {
                                 transactionStatus: 'RESERVED',
                                 reservedDate: moment(),
                                 transactionId: helper.generateRunningNumber("TXU"),
-                                productId: productQueryAry,
+                                products: productQueryAry,
                                 // assign the _id from the Product
                                 purchaser: purchaserDoc._id // assign purchaser
                             });
@@ -341,7 +341,7 @@ router.post("/transaction", (req, res) => {
         })
             .populate(
                 {
-                    path: 'productId.productRef', select: 'productStatus _id productName inStock productCategory'
+                    path: 'products.productRef', select: 'productStatus _id productName inStock productCategory'
                 })
             .populate(
                 {

@@ -3,12 +3,12 @@ const fs = require("fs");
 
 require('dotenv').config();
 
-const publicKey = fs.readFileSync("./keys/public.pub");
-const privateKey = fs.readFileSync("./keys/private.pem");
+const publicKey = fs.readFileSync(process.env.pub_key_path);
+const privateKey = fs.readFileSync(process.env.pem_key_path);
 
 const authentication = {
-    sign: (req, res) => {
-        const { username, password } = req.body;
+    sign: (username, password) => {
+        //const { username, password } = req.body;
 
         const token = jwt.sign(
             {
@@ -21,9 +21,9 @@ const authentication = {
                 algorithm: process.env.algo,
                 issuer: process.env.issuer
             });
-        res.header('authorization', 'Bearer ' + token);
-        res.status(200).send({ 'token': token });
-
+        //res.header('authorization', 'Bearer ' + token);
+        //res.status(200).send({ 'token': token });
+        return token;
     },
     verify: (req, res, next) => {
         // TODO
