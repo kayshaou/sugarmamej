@@ -29,11 +29,12 @@ const product = mongoose.model('Product', Schema({
     inStock: Number // number of available stocks.
 }, { optimisticConcurrency: true }));
 
-product.createIndexes({
-    productCategory: "text",
-    productName: "text",
-    productDescription: "text"
-})
+// these settings don't work
+//product.createIndexes({
+//     productCategory: "text",
+//     productName: "text",
+//     productDescription: "text"
+// })
 
 
 module.exports = product;

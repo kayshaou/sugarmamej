@@ -26,7 +26,7 @@ app.use("/purchaser", purchaserRoutes);
 // })
 
 app.get("/", (req, res) => {
-    // res.send({ message: 'Welcome' });
+    res.send({ message: 'Welcome' });
 })
 
 app.post("/sign", (req, res) => {
