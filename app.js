@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/product", productRoutes);
 app.use("/purchaser", purchaserRoutes);
 
-// dbconnect.connect();
+dbconnect.connect();
 
 
 // app.get("/", paypalapi.getAuthToken, (req, res) => {

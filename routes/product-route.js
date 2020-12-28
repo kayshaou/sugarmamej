@@ -8,6 +8,7 @@ const escapeStringRegexp = require('escape-string-regexp');
 
 var AsyncLock = require('async-lock');
 const purchaser = require("../model/purchaser");
+const { populate } = require("../model/product");
 var lock = new AsyncLock();
 
 const handleError = (err, res) => {
@@ -319,15 +320,56 @@ router.post("/add-cart", (req, res) => {
 });
 
 
+// between period of time.
+router.post("/transaction", (req, res) => {
+    try {
+        // decon requesting params
+        const { startPeriod, endPeriod } = req.body;
 
+        let startPeriodDate = moment(startPeriod).hours(0).minutes(0).seconds(0).toLocaleString();
+        let endPeriodDate = moment(endPeriod).hours(23).minutes(59).seconds(59).toLocaleString();
 
+        console.log("startPeriodDate " + startPeriodDate + " endPeriodDate " + endPeriodDate);
+        console.log("startPeriodDate new ()" + new Date(startPeriodDate).toLocaleDateString() + " endPeriodDate " + new Date(endPeriodDate).toLocaleDateString());
 
+        ProductTransaction.find({
+            reservedDate:
+            {
+                '$gte': startPeriodDate,
+                '$lte': endPeriodDate
+            }
+        })
+            .populate(
+                {
+                    path: 'productId.productRef', select: 'productStatus _id productName inStock productCategory'
+                })
+            .populate(
+                {
+                    path: 'purchaser', select: 'purchaserName purchaserUsername'
+                })
+            .populate(
+                {
+                    path: 'purchaser'
+                    , populate:
+                    {
+                        path: 'purchaserAddress.purchaserAddressRef',
+                        match: { "isPreffered": true }
+                    }
+                    //, select: 'purchaserPostalCode purchaserAddressLineOne purchaserAddressLineTwo'
+                })
+            .exec((err, entity) => {
+                if (err) return handleError(err, res);
+                // console.log('entity', entity);
 
-// get transaction based on type of productname, category, time
-router.get("/transaction", async (req, res) => {
-
-
-
+                res.send({
+                    message: 'product-transaction-retrieved',
+                    period: startPeriodDate + ' to ' + endPeriodDate,
+                    entity: entity
+                })
+            })
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 

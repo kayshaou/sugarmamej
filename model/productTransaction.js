@@ -9,7 +9,7 @@ const productTransaction = mongoose.model('ProductTransaction', Schema({
         type: Date, default: Date.Now
     },
     transactionStatus: String, // RESERVED, PLACED
-    productId: [{ //ref to product schema
+    productIds: [{ //ref to product schema
         productRef: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Product"
