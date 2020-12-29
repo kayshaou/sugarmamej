@@ -123,6 +123,8 @@ router.post("/verify", async (req, res) => {
                 const result = await helper.verifyPassword(hPassword, password);
                 if (result === true) {
                     const token = authentication.sign(username, hPassword);
+
+                    console.log(" token " + token);
                     res.status(200).send({ token });
                 } else {
                     return handleError(new Error("Unauthorized"), res, 401);

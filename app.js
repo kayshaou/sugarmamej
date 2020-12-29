@@ -5,7 +5,7 @@ const helper = require("./helper/utils");
 const app = express();
 
 // import 
-// const auth = require("./middleware/auth");
+const auth = require("./middleware/auth");
 const dbconnect = require("./middleware/dbconnect");
 // routes 
 const productRoutes = require("./routes/product-route");
@@ -42,9 +42,9 @@ app.post("/sign", (req, res) => {
 
 
 
-// app.post("/verify", auth.verify, (req, res) => {
-//     res.send({ message: 'Welcome' });
-// })
+app.post("/verify", auth.verify, (req, res) => {
+    res.send({ message: 'Welcome' });
+})
 
 let port = process.env.PORT || 5000
 
