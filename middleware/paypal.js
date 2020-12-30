@@ -2,6 +2,7 @@ const axios = require("axios");
 const request = require("request");
 let express = require('express');
 let cookieParser = require('cookie-parser');
+
 //setup express app 
 let app = express();
 app.use(cookieParser());
@@ -13,7 +14,8 @@ const paypalsecret = process.env.paypalsecret;
 
 const paypalAPI = {
     // get auth token 
-    getAuthToken: (reques, response, next) => {
+    // getAuthToken: (reques, response, next) => {
+    getAuthToken: (reques, response) => {
         try {
             // const token = paypalclientid + ':' + paypalsecret;
 
@@ -41,11 +43,13 @@ const paypalAPI = {
                 // console.log(body);
                 if (body != undefined) {
                     const reply = JSON.parse(body);
-                    // console.log(reply.access_token);
-                    response.setHeader('Set-Cookie', 'pToken=' + reply.access_token + '; HttpOnly');
-                    next();
+                    console.log(reply.access_token);
+                    response.send({ token: reply.access_token })
+
+                    // response.setHeader('Set-Cookie', 'pToken=' + reply.access_token + '; HttpOnly');
+                    // next();
                 } else {
-                    response.send({ message: 'error ' + err })
+                    response.send({ message: 'error ' + err.message })
                 }
             });
 
@@ -58,6 +62,8 @@ const paypalAPI = {
 
     }
 }
+
+
 
 
 /*

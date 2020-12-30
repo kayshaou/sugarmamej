@@ -11,7 +11,7 @@ const dbconnect = require("./middleware/dbconnect");
 const productRoutes = require("./routes/product-route");
 const purchaserRoutes = require("./routes/purchaser-route");
 
-
+const paypalapi = require("./middleware/paypal")
 
 app.use(cookieParser());
 app.use(express.json());
@@ -23,11 +23,11 @@ app.use("/purchaser", purchaserRoutes);
 dbconnect.connect();
 
 
-// app.get("/", paypalapi.getAuthToken, (req, res) => {
-//     // const response = paypalapi.getAuthToken();
-//     //console.log(response);
-//     res.send({ message: 'Welcome ' });
-// })
+app.get("/token", (req, res) => {
+    // const response = paypalapi.getAuthToken();
+    //console.log(response);
+    paypalapi.getAuthToken(req, res);
+})
 
 app.get("/", (req, res) => {
     res.send({ message: 'Welcome Adrian' });

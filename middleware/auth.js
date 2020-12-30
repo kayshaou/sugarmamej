@@ -19,7 +19,7 @@ const authentication = {
                 }, //payload
                 secretKey,
                 {
-                    expiresIn: '1m',
+                    expiresIn: '1h',
                     // algorithm: process.env.algo,
                     issuer: process.env.issuer
                 });
