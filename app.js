@@ -10,6 +10,7 @@ const dbconnect = require("./middleware/dbconnect");
 // routes 
 const productRoutes = require("./routes/product-route");
 const purchaserRoutes = require("./routes/purchaser-route");
+const paymentRoutes = require("./routes/payment-route");
 
 
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/product", productRoutes);
 app.use("/purchaser", purchaserRoutes);
+app.use("/payment", paymentRoutes);
 
 dbconnect.connect();
 

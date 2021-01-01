@@ -23,8 +23,8 @@ const productTransaction = mongoose.model('ProductTransaction', Schema({
 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Purchaser"
-    }
-
+    },
+    totalAmount: Number
 }, { optimisticConcurrency: true }));
 
 module.exports = productTransaction;
