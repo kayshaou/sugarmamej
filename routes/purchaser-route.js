@@ -102,7 +102,12 @@ router.post("/create", (req, res) => {
     }
 });
 
-// verify log in; if succeeds. return jwt token //
+
+//update purchaser details
+router.post("/update", async (req, res) => {
+
+})
+// verify log in; if succeeds. return jwt token edited 30 Dec 2020 //
 router.post("/verify", async (req, res) => {
     try {
         const { username, password } = req.body
@@ -125,7 +130,7 @@ router.post("/verify", async (req, res) => {
                     const token = authentication.sign(username, hPassword);
 
                     console.log(" token " + token);
-                    res.status(200).send({ token });
+                    res.status(200).send({ token, purchaser });
                 } else {
                     return handleError(new Error("Unauthorized"), res, 401);
                 }
