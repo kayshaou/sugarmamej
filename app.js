@@ -11,6 +11,7 @@ const dbconnect = require("./middleware/dbconnect");
 const productRoutes = require("./routes/product-route");
 const purchaserRoutes = require("./routes/purchaser-route");
 const paymentRoutes = require("./routes/payment-route");
+const subscriptionRoutes = require("./routes/subscription-route");
 
 const paypalapi = require("./middleware/paypal")
 
@@ -21,9 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/product", productRoutes);
 app.use("/purchaser", purchaserRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/subscription", subscriptionRoutes);
 
 dbconnect.connect();
-
 
 app.get("/token", (req, res) => {
     // const response = paypalapi.getAuthToken();

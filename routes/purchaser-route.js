@@ -105,6 +105,17 @@ router.post("/create", (req, res) => {
 
 //update purchaser details
 router.post("/update", async (req, res) => {
+    const {
+        purchaserName,
+        // purchaserUsername, can't change
+        purchaserPassword,
+        purchaserDOB,
+        purchaserPostalCode,
+        purchaserAddressLineOne, purchaserAddressLineTwo,
+        isChangeAddress
+    } = req.body;
+
+
 
 })
 // verify log in; if succeeds. return jwt token edited 30 Dec 2020 //
