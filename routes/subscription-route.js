@@ -20,7 +20,13 @@ const handleError = (err, res, status) => {
 //list down subscription
 
 router.get("/list", (req, res) => {
-
+    try {
+        Subscription.find((err, entity) => {
+            res.status(200).send({ entity });
+        });
+    } catch (error) {
+        handleError(err, res);
+    }
 });
 // newsletter subscription : requires no auth?
 router.post("/subscribe", (req, res) => {
