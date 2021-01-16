@@ -14,10 +14,14 @@ const paymentRoutes = require("./routes/payment-route");
 const subscriptionRoutes = require("./routes/subscription-route");
 
 const paypalapi = require("./middleware/paypal")
-
+var cors = require('cors');
 app.use(cookieParser());
 app.use(express.json());
+// to use cors
+
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
 
 app.use("/product", productRoutes);
 app.use("/purchaser", purchaserRoutes);
