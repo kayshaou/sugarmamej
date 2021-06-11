@@ -31,6 +31,32 @@ const helper = {
                 resolve(result);
             });
         })
+    },
+    sendEmail: (from, to, html) => {
+        const sendmail = require('sendmail')({
+            logger: {
+                debug: console.log,
+                info: console.info,
+                warn: console.warn,
+                error: console.error
+            },
+            silent: false,
+
+            devPort: 25, // Default: False
+            devHost: 'localhost', // Default: localhost
+            smtpPort: 25, // Default: 25
+            smtpHost: 'localhost' // Default: -1 - extra smtp host after resolveMX
+        })
+
+        sendmail({
+            from,
+            to,
+            subject: 'test sendmail',
+            html
+        }, function (err, reply) {
+            console.log(err && err.stack);
+            console.dir(reply);
+        });
     }
 }
 
